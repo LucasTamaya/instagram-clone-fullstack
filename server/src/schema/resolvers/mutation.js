@@ -18,7 +18,7 @@ const Mutation = new GraphQLObjectType({
         email: { type: new GraphQLNonNull(GraphQLString) },
         password: { type: new GraphQLNonNull(GraphQLString) },
       },
-      resolve: async (_, { username, email, password }, { req }) => {
+      resolve: async (_, { username, email, password }, { req, __, ___ }) => {
         const existingUser = await User.findOne({ email });
 
         if (existingUser) {
@@ -34,7 +34,7 @@ const Mutation = new GraphQLObjectType({
             profilPictureUrl: "",
           });
 
-          req.session.isAuth = true;
+          req.session.user = newUser;
 
           return newUser.save();
         }
@@ -48,7 +48,7 @@ const Mutation = new GraphQLObjectType({
         email: { type: new GraphQLNonNull(GraphQLString) },
         password: { type: new GraphQLNonNull(GraphQLString) },
       },
-      resolve: async (_, { email, password }) => {
+      resolve: async (_, { email, password }, { req, __, ___ }) => {
         const user = await User.findOne({ email });
 
         if (!user) {
@@ -61,7 +61,7 @@ const Mutation = new GraphQLObjectType({
           return new Error("Invalid password");
         }
 
-        req.session.isAuth = true;
+        req.session.user = user;
 
         return user;
       },

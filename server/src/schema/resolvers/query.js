@@ -29,12 +29,14 @@ const RootQuery = new GraphQLObjectType({
     // Endpoint //
     getAllPosts: {
       type: new GraphQLList(PostType),
-      resolve: (_, __, { req, res, next }) => {
-        if (!req.session.isAuth) {
-          return res.redirect("/register");
+      resolve: (_, __, { req, ___, ____ }) => {
+        console.log(req.session)
+        if (!req.session.user) {
+          console.log("cookie non valide")
+          return new Error("Invalid cookie");
         }
 
-        next();
+        console.log(req.session.user)
 
         return Post.find({});
       },

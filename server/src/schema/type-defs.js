@@ -1,14 +1,7 @@
 const graphql = require("graphql");
-const mongoose = require("mongoose");
 
-const {
-  GraphQLObjectType,
-  GraphQLList,
-  GraphQLString,
-  GraphQLID,
-  GraphQLInt,
-  GraphQLInputObjectType,
-} = graphql;
+const { GraphQLObjectType, GraphQLList, GraphQLString, GraphQLID, GraphQLInt } =
+  graphql;
 const User = require("../models/user");
 const Post = require("../models/post");
 

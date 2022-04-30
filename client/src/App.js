@@ -1,19 +1,18 @@
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
 import { Routes, Route } from "react-router-dom";
+
+import apolloClient from "./helpers/apolloClient";
 import LandingPage from "./components/LandingPage/LandingPage";
+import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 
 function App() {
-  const client = new ApolloClient({
-    uri: "http://localhost:4000/graphql", // a modifier pour pointer vers le serveur keroku
-    cache: new InMemoryCache(),
-  });
-
   return (
-    <ApolloProvider client={client}>
+    <ApolloProvider client={apolloClient}>
       <Routes>
-        <Route path="/register" element={<Register />} />
         <Route path="/" element={<LandingPage />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </ApolloProvider>
   );

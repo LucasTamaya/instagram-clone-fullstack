@@ -4,29 +4,28 @@ import { Link, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@apollo/client";
 
-import registerValidationSchema from "../../helpers/registerValidationSchema";
-import { REGISTER_USER } from "../../graphql/mutation";
+import loginValidationSchema from "../../helpers/loginValidationSchema";
+import { LOGIN_USER } from "../../graphql/mutation";
 import instagramLogo from "../../assets/images/Instagram_logo.svg.png";
 import AuthLoading from "../Loaders/AuthLoading";
 import AuthSuccess from "../AuthStatus/AuthSuccess";
 import AuthError from "../AuthStatus/AuthError";
 
-function Register() {
+function Login() {
   const navigate = useNavigate();
 
   const { control, handleSubmit } = useForm({
-    resolver: yupResolver(registerValidationSchema),
+    resolver: yupResolver(loginValidationSchema),
   });
 
-  const [registerUser, { error, loading, data }] = useMutation(REGISTER_USER);
+  const [logUser, { error, loading, data }] = useMutation(LOGIN_USER); // AJOUTER LA GESTION DERREUR
 
-  const register = ({ username, email, password }) => {
-    registerUser({
-      variables: { username, email, password },
+  const log = ({ email, password }) => {
+    logUser({
+      variables: { email, password },
     });
   };
 
-  // Redirect user if no error during the register
   useEffect(() => {
     if (data) {
       // Timeout of 3 seconds to see the success message
@@ -49,14 +48,9 @@ function Register() {
           alt="instagram logo at the top of the form"
         />
 
-        <p className="text-gray-500 font-bold text-center max-w-[270px]">
-          Sign up to see photos and videos from your friends.
-        </p>
-
         <form
-          onSubmit={handleSubmit(register)}
+          onSubmit={handleSubmit(log)}
           className="flex flex-col w-full max-w-[260px] gap-y-7"
-          role="form"
         >
           <Controller
             control={control}
@@ -68,26 +62,6 @@ function Register() {
                   value={value || ""}
                   className="w-full border border-gray-300 rounded py-1 px-2 outline-none focus:border-gray-500 placeholder:text-gray-400"
                   placeholder="Email"
-                  onChange={onChange}
-                />
-                {/* show error message if error */}
-                {!!error && (
-                  <p className="text-xs text-red-500">{error?.message}</p>
-                )}
-              </div>
-            )}
-          />
-
-          <Controller
-            control={control}
-            name="username"
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <div>
-                <input
-                  type="text"
-                  value={value || ""}
-                  className="w-full border border-gray-300 rounded py-1 px-2 outline-none focus:border-gray-500 placeholder:text-gray-400"
-                  placeholder="Username"
                   onChange={onChange}
                 />
                 {/* show error message if error */}
@@ -122,32 +96,16 @@ function Register() {
             className="text-white h-[35px] flex justify-center items-center py-2 rounded bg-blue-500"
             type="submit"
           >
-            {!loading ? <>Register</> : <AuthLoading />}
+            {!loading ? <>Log In</> : <AuthLoading />}
           </button>
-
-          <p className="text-gray-400 text-xs text-center">
-            By signing up, you agree to our{" "}
-            <span className="text-gray-500 font-bold cursor-pointer">
-              Terms
-            </span>{" "}
-            . Learn how we collect, use and share your data in our{" "}
-            <span className="text-gray-500 font-bold cursor-pointer">
-              Data Policy
-            </span>{" "}
-            and how we use cookies and similar technology in our{" "}
-            <span className="text-gray-500 font-bold cursor-pointer">
-              Cookies Policy
-            </span>{" "}
-            .
-          </p>
         </form>
       </div>
 
       <div className="border border-gray-400 w-full max-w-[350px] py-4">
         <p className="text-center">
-          Have an account?{" "}
-          <Link to="/login" className="text-blue-500">
-            Log in
+          Don't have an account?{" "}
+          <Link to="/register" className="text-blue-500">
+            Sign up
           </Link>
         </p>
       </div>
@@ -155,4 +113,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Login;

@@ -20,8 +20,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
-    methods: ["GET", "POST", "DELETE"],
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
@@ -41,15 +40,10 @@ app.use(
 
 app.use(
   "/graphql",
-  bodyParser.json(),
-  (req, _, next) => {
-    console.log(req.session);
-    next();
-  },
-  graphqlHTTP((req) => ({
+  graphqlHTTP((req, res, next) => ({
     schema,
     graphiql: true,
-    context: { req },
+    context: { req, res, next },
   }))
 );
 
