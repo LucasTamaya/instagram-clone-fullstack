@@ -3,6 +3,9 @@ import { useQuery } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 
 import { GET_ALL_POSTS } from "../../graphql/query";
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
+import Post from "../Post/Post";
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -13,17 +16,38 @@ function LandingPage() {
 
   useEffect(() => {
     if (error) {
-      alert("You don't have the rights to view this page, connect first");
       navigate("/register");
     }
-    error ? console.log(error) : console.log(data);
+
+    console.log(data);
   }, [error, data]);
 
   if (loading) {
-    return <p>Loading ...</p>;
+    console.log("loading")
+    // return <p>Loading ...</p>;
   }
 
-  return <div>Here is the landing page</div>;
+  return (
+    <div>
+      <Header />
+      <div className="w-full max-w-[1000px] mx-auto flex flex-col gap-y-2">
+        {data &&
+          data.getAllPosts.map((post) => (
+            <Post
+              key={post._id}
+              id={post._id}
+              imgUrl={post.imgUrl}
+              description={post.description}
+              authorName={post.author.username}
+              authorPicture={post.author.profilPictureUrl}
+              numberOfLikes={post.numberOfLikes}
+              comments={post.comments}
+            />
+          ))}
+      </div>
+      <Footer />
+    </div>
+  );
 }
 
 export default LandingPage;

@@ -28,6 +28,8 @@ function Login() {
 
   useEffect(() => {
     if (data) {
+      localStorage.setItem("id", data.login._id);
+      localStorage.setItem("username", data.login.username);
       // Timeout of 3 seconds to see the success message
       setTimeout(() => {
         navigate("/");
@@ -39,7 +41,7 @@ function Login() {
     <div className="w-full h-screen flex flex-col gap-y-4 justify-center items-center p-8">
       {data && <AuthSuccess message="Successful connection" />}
 
-      {error && <AuthError message="This user already exists" />}
+      {error && <AuthError message="Invalid email or password" />}
 
       <div className="w-full max-w-[350px] border border-gray-400 flex flex-col justify-center items-center gap-y-[10px] p-8">
         <img
@@ -51,6 +53,7 @@ function Login() {
         <form
           onSubmit={handleSubmit(log)}
           className="flex flex-col w-full max-w-[260px] gap-y-7"
+          role="form"
         >
           <Controller
             control={control}

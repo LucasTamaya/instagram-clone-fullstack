@@ -3,8 +3,8 @@ import { gql } from "@apollo/client";
 const REGISTER_USER = gql`
   mutation ($username: String!, $email: String!, $password: String!) {
     register(username: $username, email: $email, password: $password) {
-      username
       _id
+      username
     }
   }
 `;
@@ -12,36 +12,29 @@ const REGISTER_USER = gql`
 const LOGIN_USER = gql`
   mutation ($email: String!, $password: String!) {
     login(email: $email, password: $password) {
+      _id
       username
+    }
+  }
+`;
+
+const ADD_POST = gql`
+  mutation ($imgUrl: String!, $description: String!, $authorId: String!) {
+    addPost(imgUrl: $imgUrl, description: $description, authorId: $authorId) {
       _id
     }
   }
 `;
 
-const CREATE_POST = gql`
-  mutation (
-    $title: String!
-    $description: String!
-    $imgUrl: String!
-    $authorId: String!
-  ) {
-    createPost(
-      title: $title
-      description: $description
-      imgUrl: $imgUrl
-      authorId: $authorId
-    ) {
-      title
+const ADD_COMMENT = gql`
+  mutation ($postId: String!, $author: String!, $text: String!) {
+    addComment(postId: $postId, author: $author, text: $text) {
+      comments {
+        author
+        text
+      }
     }
   }
 `;
 
-const SAVE_POST = gql`
-  mutation ($userId: String!, $postId: String!) {
-    savePost(userId: $userId, postId: $postId) {
-      username
-    }
-  }
-`;
-
-export { REGISTER_USER, LOGIN_USER, CREATE_POST, SAVE_POST };
+export { REGISTER_USER, LOGIN_USER, ADD_POST, ADD_COMMENT };

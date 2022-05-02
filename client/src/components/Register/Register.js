@@ -29,6 +29,8 @@ function Register() {
   // Redirect user if no error during the register
   useEffect(() => {
     if (data) {
+      localStorage.setItem("id", data.register._id);
+      localStorage.setItem("username", data.register.username);
       // Timeout of 3 seconds to see the success message
       setTimeout(() => {
         navigate("/");

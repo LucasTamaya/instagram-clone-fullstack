@@ -136,13 +136,13 @@ const Mutation = new GraphQLObjectType({
     addComment: {
       type: PostType,
       args: {
-        id: { type: new GraphQLNonNull(GraphQLString) },
-        text: { type: new GraphQLNonNull(GraphQLString) },
+        postId: { type: new GraphQLNonNull(GraphQLString) },
         author: { type: new GraphQLNonNull(GraphQLString) },
+        text: { type: new GraphQLNonNull(GraphQLString) },
       },
-      resolve(_, { id, text, author }) {
+      resolve(_, { postId, text, author }) {
         try {
-          return Post.findByIdAndUpdate(id, {
+          return Post.findByIdAndUpdate(postId, {
             $push: { comments: { text, author } },
           });
         } catch (err) {

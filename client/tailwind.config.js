@@ -17,6 +17,7 @@ module.exports = {
       animation: {
         authTransitionInSm: "authTransitionInSm .7s forwards",
         authTransitionInMd: "authTransitionInMd .7s forwards",
+        pingSlow: "ping 2s cubic-bezier(0, 0, 0.2, 1) infinite"
       },
     },
   },

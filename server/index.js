@@ -33,7 +33,7 @@ app.use(
     store: store,
     cookie: {
       httpOnly: true,
-      maxAge: 120000,
+      maxAge: 3000000,
     },
   })
 );
