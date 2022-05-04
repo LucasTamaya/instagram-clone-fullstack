@@ -1,5 +1,4 @@
 const graphql = require("graphql");
-const bcrypt = require("bcrypt");
 
 const Post = require("../../models/post");
 const User = require("../../models/user");

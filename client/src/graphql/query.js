@@ -5,7 +5,7 @@ const GET_ALL_POSTS = gql`
     getAllPosts {
       imgUrl
       description
-      numberOfLikes
+      like
       comments {
         text
         author

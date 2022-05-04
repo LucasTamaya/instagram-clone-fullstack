@@ -23,8 +23,8 @@ function LandingPage() {
   }, [error, data]);
 
   if (loading) {
-    console.log("loading")
-    // return <p>Loading ...</p>;
+    console.log("loading");
+    return <p>Loading ...</p>;
   }
 
   return (
@@ -35,12 +35,12 @@ function LandingPage() {
           data.getAllPosts.map((post) => (
             <Post
               key={post._id}
-              id={post._id}
+              postId={post._id}
               imgUrl={post.imgUrl}
               description={post.description}
               authorName={post.author.username}
               authorPicture={post.author.profilPictureUrl}
-              numberOfLikes={post.numberOfLikes}
+              like={post.like}
               comments={post.comments}
             />
           ))}

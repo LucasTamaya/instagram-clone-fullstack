@@ -37,4 +37,20 @@ const ADD_COMMENT = gql`
   }
 `;
 
-export { REGISTER_USER, LOGIN_USER, ADD_POST, ADD_COMMENT };
+const LIKE_POST = gql`
+  mutation ($postId: String!, $arrayOfLikes: [String]!) {
+    likePost(postId: $postId, arrayOfLikes: $arrayOfLikes) {
+      like
+    }
+  }
+`;
+
+const UNLIKE_POST = gql`
+  mutation ($postId: String!, $arrayOfLikes: [String]!) {
+    unlikePost(postId: $postId, arrayOfLikes: $arrayOfLikes) {
+      like
+    }
+  }
+`;
+
+export { REGISTER_USER, LOGIN_USER, ADD_POST, ADD_COMMENT, LIKE_POST, UNLIKE_POST };

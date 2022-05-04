@@ -5,7 +5,8 @@ const User = require("../../models/user");
 const Post = require("../../models/post");
 const { PostType, UserType } = require("../type-defs");
 const passwordValidation = require("../../helpers/passwordValidation");
-const { GraphQLObjectType, GraphQLString, GraphQLNonNull } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList } =
+  graphql;
 
 const Mutation = new GraphQLObjectType({
   name: "Mutation",
@@ -79,7 +80,7 @@ const Mutation = new GraphQLObjectType({
           imgUrl,
           description,
           authorId,
-          numberOfLikes: 0,
+          like: [],
           comments: [],
         });
         return newPost.save();
@@ -103,12 +104,13 @@ const Mutation = new GraphQLObjectType({
     likePost: {
       type: PostType,
       args: {
-        id: { type: new GraphQLNonNull(GraphQLString) },
+        postId: { type: new GraphQLNonNull(GraphQLString) },
+        arrayOfLikes: { type: new GraphQLList(GraphQLString) },
       },
-      resolve(_, { id }) {
+      resolve(_, { postId, arrayOfLikes }) {
         try {
-          return Post.findByIdAndUpdate(id, {
-            $inc: { numberOfLikes: 1 },
+          return Post.findByIdAndUpdate(postId, {
+            $set: { like: arrayOfLikes },
           });
         } catch (err) {
           return err;
@@ -119,12 +121,13 @@ const Mutation = new GraphQLObjectType({
     unlikePost: {
       type: PostType,
       args: {
-        id: { type: new GraphQLNonNull(GraphQLString) },
+        postId: { type: new GraphQLNonNull(GraphQLString) },
+        arrayOfLikes: { type: new GraphQLList(GraphQLString) },
       },
-      resolve(_, { id }) {
+      resolve(_, { postId, arrayOfLikes }) {
         try {
-          return Post.findByIdAndUpdate(id, {
-            $inc: { numberOfLikes: -1 },
+          return Post.findByIdAndUpdate(postId, {
+            $set: { like: arrayOfLikes },
           });
         } catch (err) {
           console.log(err);

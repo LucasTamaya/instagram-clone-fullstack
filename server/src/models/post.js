@@ -6,9 +6,9 @@ const postSchema = new Schema({
   imgUrl: String,
   description: String,
   authorId: String,
-  numberOfLikes: {
-    type: Number,
-    default: 0,
+  like: {
+    type: [String],
+    default: [],
   },
   comments: {
     type: [Object],

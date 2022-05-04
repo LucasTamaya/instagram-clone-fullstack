@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import MapsUgcOutlinedIcon from "@mui/icons-material/MapsUgcOutlined";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import TurnedInNotOutlinedIcon from "@mui/icons-material/TurnedInNotOutlined";
@@ -9,43 +10,95 @@ import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import TagFacesOutlinedIcon from "@mui/icons-material/TagFacesOutlined";
 
 import { ADD_COMMENT } from "../../graphql/mutation";
-import { GET_ALL_POSTS } from "../../graphql/query";
+import { LIKE_POST } from "../../graphql/mutation";
+import { UNLIKE_POST } from "../../graphql/mutation";
+// import { GET_ALL_POSTS } from "../../graphql/query";
 
 function Post({
-  id,
+  postId,
   imgUrl,
   description,
   authorName,
   authorPicture,
-  numberOfLikes,
+  like,
   comments,
 }) {
-  const [comment, setComment] = useState("");
+  const [newComment, setNewComment] = useState("");
+  const [allComments, setAllComments] = useState(comments);
+  const [arrayOfLikes, setArrayOfLikes] = useState(like);
+  const [myLike, setMyLike] = useState(false);
 
-  const [addComment, { loading, error, data }] = useMutation(ADD_COMMENT, {
-    refetchQueries: [GET_ALL_POSTS, "getAllPosts"],
-  });
+  useEffect(() => {
+    // verify if the user liked the post at it first load
+    if (arrayOfLikes.includes(localStorage.getItem("id"))) {
+      setMyLike(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!myLike) {
+      unlikePost({
+        variables: {
+          postId,
+          arrayOfLikes: arrayOfLikes,
+        },
+      });
+    }
+
+    if (myLike) {
+      likePost({
+        variables: {
+          postId,
+          arrayOfLikes: arrayOfLikes,
+        },
+      });
+    }
+  }, [arrayOfLikes]);
+
+  // const [addComment, { loading, error, data }] = useMutation(ADD_COMMENT, {
+  //   refetchQueries: [GET_ALL_POSTS, "getAllPosts"],
+  // });
+
+  const [addComment] = useMutation(ADD_COMMENT);
+  const [likePost] = useMutation(LIKE_POST);
+  const [unlikePost] = useMutation(UNLIKE_POST);
 
   const handleAddComment = (e) => {
     e.preventDefault();
-    if (!comment) {
+    if (!newComment) {
       return;
     }
 
     addComment({
       variables: {
-        postId: id,
+        postId,
         author: localStorage.getItem("username"),
-        text: comment,
+        text: newComment,
       },
+      onError: () => alert("something went wrong when adding comment"),
     });
 
-    setComment("");
+    setAllComments((curr) => [
+      ...curr,
+      { author: localStorage.getItem("username"), text: newComment },
+    ]);
+
+    setNewComment("");
   };
 
-  if (error) {
-    console.log(error);
-  }
+  const handleLikePost = (e) => {
+    e.preventDefault();
+    setArrayOfLikes((curr) => [...curr, localStorage.getItem("id")]);
+    setMyLike(true);
+  };
+
+  const handleUnlikePost = (e) => {
+    e.preventDefault();
+    setArrayOfLikes((curr) =>
+      [...curr].filter((id) => id !== localStorage.getItem("id"))
+    );
+    setMyLike(false);
+  };
 
   return (
     <article className="mt-7 w-full h-full max-h-[645px] flex flex-auto flex-col border border-gray-400 max-w-[600px]">
@@ -62,48 +115,69 @@ function Post({
 
       <img
         src={imgUrl}
-        alt="post image"
+        alt="instagram post"
         className="min-w-[326px] min-h-[326px] flex-auto max-h-[615px] object-cover bg-red-500"
       />
 
       <div className="p-2 flex justify-between items-center">
         <div className="flex items-center gap-x-4">
-          <FavoriteBorderOutlinedIcon className="cursor-pointer" />
+          <div className="relative cursor-pointer">
+            <span className="absolute w-2 h-2 right-0 rounded-full bg-red-300 animate-pingSlow"></span>
+            {!myLike ? (
+              <FavoriteBorderOutlinedIcon onClick={handleLikePost} />
+            ) : (
+              <FavoriteIcon
+                className="text-red-500"
+                onClick={handleUnlikePost}
+              />
+            )}
+          </div>
           <MapsUgcOutlinedIcon className="cursor-pointer" />
           <SendOutlinedIcon className="cursor-pointer" />
         </div>
         <TurnedInNotOutlinedIcon className="cursor-pointer" />
       </div>
 
-      <div className="p-2 flex items-center gap-x-2">
-        <p className="font-bold">{authorName}</p>
-        <p className="w-full max-w-[250px] truncate">{description}</p>
-      </div>
-
-      {comments && (
-        <div className="flex flex-col gap-y-1 p-2">
-          {comments.map((comment) => (
-            <div className="flex items-center gap-x-2">
-              <p className="font-bold">{comment.author}</p>
-              <p>{comment.text}</p>
-            </div>
-          ))}
-        </div>
+      {arrayOfLikes.length === 0 ? (
+        <></>
+      ) : arrayOfLikes.length === 1 ? (
+        <span className="font-bold py-1 px-2">{arrayOfLikes.length} like</span>
+      ) : (
+        <span className="font-bold py-1 px-2">{arrayOfLikes.length} likes</span>
       )}
+
+      <div className="p-2 flex flex-col gap-y-1">
+        <div className="flex items-center gap-x-2">
+          <p className="font-bold">{authorName}</p>
+          <p className="w-full max-w-[250px] truncate">{description}</p>
+        </div>
+
+        {allComments && (
+          <div className="flex flex-col gap-y-1">
+            {allComments.map((comment) => (
+              <div className="flex items-center gap-x-2">
+                <p className="font-bold">{comment.author}</p>
+                <p>{comment.text}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       <div className="p-2 flex items-center gap-x-4 border-t border-gray-200">
         <TagFacesOutlinedIcon className="cursor-pointer" />
+        {/* Add a comment */}
         <form className="w-full flex" onSubmit={handleAddComment}>
           <input
             className="flex-1 outline-none p-1"
             type="text"
             placeholder="Add a comment..."
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
           />
           <button
             className={`${
-              !comment ? "text-blue-200 cursor-not-allowed" : "text-blue-500"
+              !newComment ? "text-blue-200 cursor-not-allowed" : "text-blue-500"
             } font-bold`}
             type="submit"
           >

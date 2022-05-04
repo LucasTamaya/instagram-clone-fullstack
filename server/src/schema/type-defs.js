@@ -33,7 +33,7 @@ const PostType = new GraphQLObjectType({
   fields: () => ({
     imgUrl: { type: GraphQLString },
     description: { type: GraphQLString },
-    numberOfLikes: { type: GraphQLInt },
+    like: { type: new GraphQLList(GraphQLString) },
     comments: { type: new GraphQLList(CommentType) },
     _id: { type: GraphQLID },
     author: {
