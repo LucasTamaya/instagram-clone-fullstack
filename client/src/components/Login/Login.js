@@ -7,7 +7,7 @@ import { useMutation } from "@apollo/client";
 import loginValidationSchema from "../../helpers/loginValidationSchema";
 import { LOGIN_USER } from "../../graphql/mutation";
 import instagramLogo from "../../assets/images/Instagram_logo.svg.png";
-import AuthLoading from "../Loaders/AuthLoading";
+import AuthLoading from "../Loaders/AuthLoading/AuthLoading";
 import AuthSuccess from "../AuthStatus/AuthSuccess";
 import AuthError from "../AuthStatus/AuthError";
 

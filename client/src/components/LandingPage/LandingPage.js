@@ -6,6 +6,8 @@ import { GET_ALL_POSTS } from "../../graphql/query";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Post from "../Post/Post";
+import LandingPageLoading from "../Loaders/LandingPageLoading/LandingPageLoading";
+import Stories from "../Stories/Stories";
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -23,14 +25,18 @@ function LandingPage() {
   }, [error, data]);
 
   if (loading) {
-    console.log("loading");
-    return <p>Loading ...</p>;
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <LandingPageLoading />
+      </div>
+    );
   }
 
   return (
     <div>
       <Header />
-      <div className="w-full max-w-[1000px] mx-auto flex flex-col gap-y-2">
+      <div className="w-full max-w-[1000px] mx-auto flex flex-col gap-y-2 pb-[55px]">
+        <Stories />
         {data &&
           data.getAllPosts.map((post) => (
             <Post

@@ -8,6 +8,7 @@ import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import TurnedInNotOutlinedIcon from "@mui/icons-material/TurnedInNotOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import TagFacesOutlinedIcon from "@mui/icons-material/TagFacesOutlined";
+import { v4 } from "uuid";
 
 import { ADD_COMMENT } from "../../graphql/mutation";
 import { LIKE_POST } from "../../graphql/mutation";
@@ -101,7 +102,7 @@ function Post({
   };
 
   return (
-    <article className="mt-7 w-full h-full max-h-[645px] flex flex-auto flex-col border border-gray-400 max-w-[600px]">
+    <article className="mt-5 mx-auto w-full h-full max-h-[645px] flex flex-auto flex-col border border-gray-400 max-w-[600px] lg:mx-0">
       <div className="flex justify-between items-center p-2 border-b border-gray-400">
         <div className="flex items-center gap-x-4">
           <div className="w-[30px] h-[30px] rounded-3xl border border-gray-300 cursor-pointer flex justify-center items-start">
@@ -116,7 +117,7 @@ function Post({
       <img
         src={imgUrl}
         alt="instagram post"
-        className="min-w-[326px] min-h-[326px] flex-auto max-h-[615px] object-cover bg-red-500"
+        className="min-w-[326px] min-h-[326px] flex-auto max-h-[615px] object-cover"
       />
 
       <div className="p-2 flex justify-between items-center">
@@ -155,7 +156,7 @@ function Post({
         {allComments && (
           <div className="flex flex-col gap-y-1">
             {allComments.map((comment) => (
-              <div className="flex items-center gap-x-2">
+              <div key={v4()} className="flex items-center gap-x-2">
                 <p className="font-bold">{comment.author}</p>
                 <p>{comment.text}</p>
               </div>

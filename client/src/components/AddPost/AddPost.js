@@ -2,13 +2,18 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import DoneIcon from "@mui/icons-material/Done";
 
 import instagramLogo from "../../assets/images/logo.png";
 import { ADD_POST } from "../../graphql/mutation";
+import UploadPhotoLoading from "../Loaders/UploadPhotoLoading/UploadPhotoLoading";
 
 function AddPost() {
   const [imgUrl, setImgUrl] = useState("");
   const [description, setDescription] = useState("");
+  const [uploadToCloudinaryLoading, setUploadToCloudinaryLoading] =
+    useState(false);
 
   const navigate = useNavigate();
 
@@ -16,6 +21,7 @@ function AddPost() {
 
   // Upload img url to cloudinary
   const uploadToCloudinary = async (file) => {
+    setUploadToCloudinaryLoading(true);
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", "lqw1ksez");
@@ -27,6 +33,7 @@ function AddPost() {
       .then((res) => {
         console.log(res);
         setImgUrl(res.data.secure_url);
+        setUploadToCloudinaryLoading(false);
       })
       .catch((err) => console.log(err));
   };
@@ -35,7 +42,7 @@ function AddPost() {
     e.preventDefault();
 
     if (!imgUrl || !description || !localStorage.getItem("id")) {
-      console.log("nonnnn");
+      console.log("data manquante");
       return;
     }
 
@@ -64,34 +71,67 @@ function AddPost() {
   if (loading) return <p>Loading ...</p>;
 
   return (
-    <div className="flex flex-col items-center">
-      <img src={instagramLogo} alt="instagram logo" className="mb-8" />
+    <div className="flex flex-col justify-center items-center gap-y-5 p-5 h-screen">
+      <img src={instagramLogo} alt="instagram logo" />
+
+      <h2 className="font-bold">Create a new publication</h2>
 
       <form
         onSubmit={handleAddPost}
-        className="flex flex-col items-center gap-y-2 border border-gray-400 p-2"
+        className="w-full flex flex-col items-center gap-y-5 p-2"
       >
+        <label
+          htmlFor="inputFile"
+          className="flex flex-col justify-center items-center border border-gray-400 w-[250px] h-[150px] cursor-pointer"
+        >
+          {!uploadToCloudinaryLoading && !imgUrl && (
+            <>
+              <AddAPhotoIcon className="text-gray-400" />
+              <span className="text-sm text-gray-400">Add a photo</span>
+            </>
+          )}
+
+          {uploadToCloudinaryLoading && <UploadPhotoLoading />}
+
+          {imgUrl && (
+            <>
+              <span className="text-blue-500 font-bold mb-2">
+                Photo selected
+              </span>
+              <div className="p-2 border-2 border-blue-500 rounded-full">
+                <DoneIcon className="text-blue-500" />
+              </div>
+            </>
+          )}
+        </label>
         <input
+          id="inputFile"
+          className="hidden"
           type="file"
           accept="image/*"
           onChange={(e) => uploadToCloudinary(e.target.files[0])}
         />
 
         <textarea
-          className="border border-black p-1 outline-none"
-          cols="30"
-          rows="10"
+          className="border border-gray-400 w-[250px] h-[250px] p-1 outline-none resize-none"
           placeholder="Description"
           onChange={(e) => setDescription(e.target.value)}
         ></textarea>
-        <button
-          type="submit"
-          className={`${
-            !imgUrl && !description ? "bg-blue-200" : "bg-blue-500"
-          } py-1 px-5 text-white rounded`}
-        >
-          Post
-        </button>
+        <div className="w-[250px] flex justify-evenly">
+          <button
+            type="submit"
+            className={`${
+              imgUrl && description
+                ? "bg-blue-500"
+                : "bg-blue-200 cursor-not-allowed"
+            } py-1 px-5 text-white rounded`}
+          >
+            Post
+          </button>
+          <button className="text-blue-500 py-1 px-5 border border-blue-600 rounded" onClick={() => navigate(-1)}>
+            Go Back
+          </button>
+        </div>
       </form>
     </div>
   );
