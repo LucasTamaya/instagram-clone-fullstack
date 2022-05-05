@@ -19,42 +19,13 @@ const GET_ALL_POSTS = gql`
   }
 `;
 
-const SINGLE_POST = gql`
-  query ($id: String!) {
-    singlePost(id: $id) {
-      title
-      description
-      imgUrl
-      author {
-        username
-      }
-    }
-  }
-`;
-
-const MY_POSTS = gql`
-  query ($id: String!) {
-    myPosts(id: $id) {
+const GET_MY_POSTS = gql`
+  query ($authorId: String!) {
+    getMyPosts(authorId: $authorId) {
       imgUrl
       _id
     }
   }
 `;
 
-const SAVED_POSTS = gql`
-  query ($id: String!) {
-    savedPosts(id: $id) {
-      savedPins {
-        title
-        description
-        imgUrl
-        _id
-        author {
-          username
-        }
-      }
-    }
-  }
-`;
-
-export { GET_ALL_POSTS, SINGLE_POST, MY_POSTS, SAVED_POSTS };
+export { GET_ALL_POSTS, GET_MY_POSTS };

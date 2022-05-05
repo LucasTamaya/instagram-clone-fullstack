@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { GET_ALL_POSTS } from "../../graphql/query";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import Post from "../Post/Post";
+import LandingPost from "../Post/LandingPost/LandingPost";
 import LandingPageLoading from "../Loaders/LandingPageLoading/LandingPageLoading";
 import Stories from "../Stories/Stories";
 
@@ -25,21 +25,17 @@ function LandingPage() {
   }, [error, data]);
 
   if (loading) {
-    return (
-      <div className="w-full h-screen flex justify-center items-center">
-        <LandingPageLoading />
-      </div>
-    );
+    return <LandingPageLoading />;
   }
 
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <div className="w-full max-w-[1000px] mx-auto flex flex-col gap-y-2 pb-[55px]">
         <Stories />
         {data &&
           data.getAllPosts.map((post) => (
-            <Post
+            <LandingPost
               key={post._id}
               postId={post._id}
               imgUrl={post.imgUrl}
@@ -51,7 +47,7 @@ function LandingPage() {
             />
           ))}
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

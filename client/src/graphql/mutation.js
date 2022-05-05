@@ -26,6 +26,14 @@ const ADD_POST = gql`
   }
 `;
 
+const DELETE_POST = gql`
+  mutation ($id: String!) {
+    deletePost(id: $id) {
+      _id
+    }
+  }
+`;
+
 const ADD_COMMENT = gql`
   mutation ($postId: String!, $author: String!, $text: String!) {
     addComment(postId: $postId, author: $author, text: $text) {
@@ -53,4 +61,12 @@ const UNLIKE_POST = gql`
   }
 `;
 
-export { REGISTER_USER, LOGIN_USER, ADD_POST, ADD_COMMENT, LIKE_POST, UNLIKE_POST };
+export {
+  REGISTER_USER,
+  LOGIN_USER,
+  ADD_POST,
+  DELETE_POST,
+  ADD_COMMENT,
+  LIKE_POST,
+  UNLIKE_POST,
+};

@@ -10,12 +10,11 @@ import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import TagFacesOutlinedIcon from "@mui/icons-material/TagFacesOutlined";
 import { v4 } from "uuid";
 
-import { ADD_COMMENT } from "../../graphql/mutation";
-import { LIKE_POST } from "../../graphql/mutation";
-import { UNLIKE_POST } from "../../graphql/mutation";
-// import { GET_ALL_POSTS } from "../../graphql/query";
+import { ADD_COMMENT } from "../../../graphql/mutation";
+import { LIKE_POST } from "../../../graphql/mutation";
+import { UNLIKE_POST } from "../../../graphql/mutation";
 
-function Post({
+function LandingPost({
   postId,
   imgUrl,
   description,
@@ -102,7 +101,7 @@ function Post({
   };
 
   return (
-    <article className="mt-5 mx-auto w-full h-full max-h-[645px] flex flex-auto flex-col border border-gray-400 max-w-[600px] lg:mx-0">
+    <article className="mt-5 mx-auto w-full h-full max-h-[645px] max-w-[600px] flex flex-auto flex-col border border-gray-400 lg:mx-0">
       <div className="flex justify-between items-center p-2 border-b border-gray-400">
         <div className="flex items-center gap-x-4">
           <div className="w-[30px] h-[30px] rounded-3xl border border-gray-300 cursor-pointer flex justify-center items-start">
@@ -190,4 +189,4 @@ function Post({
   );
 }
 
-export default Post;
+export default LandingPost;

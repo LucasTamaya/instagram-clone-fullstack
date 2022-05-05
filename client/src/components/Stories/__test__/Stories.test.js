@@ -9,9 +9,9 @@ describe("Unit tests on the Stories component", () => {
     expect(component).toBeTruthy();
   });
 
-  //   it("should render five storie", () => {
-  //     render(<Stories />);
-  //     const component = screen.getByTestId("stories");
-  //     expect(component).toBeTruthy();
-  //   });
+  it("should render five storie", () => {
+    render(<Stories />);
+    const stories = screen.getAllByRole("article");
+    expect(stories).toHaveLength(5);
+  });
 });

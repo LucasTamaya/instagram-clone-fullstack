@@ -9,7 +9,7 @@ import Story from "../Story/Story";
 
 function Stories() {
   return (
-    <section className="mt-5 flex justify-evenly items-center w-full max-w-[600px] mx-auto border border-gray-400 p-2 lg:mx-0">
+    <section className="mt-5 flex justify-evenly items-center w-full max-w-[600px] mx-auto border border-gray-400 p-2 lg:mx-0" data-testid="stories">
       <Story userImg={user1} username="Marie" />
       <Story userImg={user2} username="Charles" />
       <Story userImg={user3} username="Ashley" />
