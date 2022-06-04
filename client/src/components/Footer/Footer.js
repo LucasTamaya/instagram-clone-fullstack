@@ -17,7 +17,10 @@ function Footer() {
       data-testid="footer"
       className="w-full fixed bottom-0 left-0 flex justify-between items-center py-3 px-5 bg-gray-200 md:hidden"
     >
-      <HomeIcon />
+      <Link to="/" className="relative">
+        <span className="absolute w-2 h-2 right-0 rounded-full bg-red-300 animate-pingSlow"></span>
+        <HomeIcon />
+      </Link>
       <SearchOutlinedIcon />
       <Link to="/add-post" className="relative">
         <span className="absolute w-2 h-2 right-0 rounded-full bg-red-300 animate-pingSlow"></span>
@@ -28,13 +31,19 @@ function Footer() {
         {showProfileMenu && (
           <nav className="absolute right-0 bottom-11 w-[190px] bg-white border-2 border-gray-200 rounded">
             <ul className="flex flex-col">
-              <li className="p-2 hover:bg-gray-200">
+              <li
+                className="p-2 hover:bg-gray-200"
+                onClick={() => setShowProfileMenu(false)}
+              >
                 <Link to="/my-photos" className="flex items-center gap-x-2">
                   <InsertPhotoIcon sx={{ fontSize: 20 }} />
                   My photos
                 </Link>
               </li>
-              <li className="p-2 hover:bg-gray-200">
+              <li
+                className="p-2 hover:bg-gray-200"
+                onClick={() => setShowProfileMenu(false)}
+              >
                 <Link
                   to="/change-username"
                   className="flex items-center gap-x-2"
@@ -43,7 +52,10 @@ function Footer() {
                   Change username
                 </Link>
               </li>
-              <li className="p-2 hover:bg-gray-200">
+              <li
+                className="p-2 hover:bg-gray-200"
+                onClick={() => setShowProfileMenu(false)}
+              >
                 <Link
                   to="/change-password"
                   className="flex items-center gap-x-2"

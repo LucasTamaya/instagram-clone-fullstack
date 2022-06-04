@@ -76,7 +76,10 @@ function Header() {
               {showProfileMenu && (
                 <nav className="absolute right-0 top-11 w-[190px] bg-white border-2 border-gray-200 rounded">
                   <ul className="flex flex-col">
-                    <li className="p-2 hover:bg-gray-200">
+                    <li
+                      className="p-2 hover:bg-gray-200"
+                      onClick={() => setShowProfileMenu(false)}
+                    >
                       <Link
                         to="/my-photos"
                         className="flex items-center gap-x-2"
@@ -85,7 +88,10 @@ function Header() {
                         My photos
                       </Link>
                     </li>
-                    <li className="p-2 hover:bg-gray-200">
+                    <li
+                      className="p-2 hover:bg-gray-200"
+                      onClick={() => setShowProfileMenu(false)}
+                    >
                       <Link
                         to="/change-username"
                         className="flex items-center gap-x-2"
@@ -94,7 +100,10 @@ function Header() {
                         Change username
                       </Link>
                     </li>
-                    <li className="p-2 hover:bg-gray-200">
+                    <li
+                      className="p-2 hover:bg-gray-200"
+                      onClick={() => setShowProfileMenu(false)}
+                    >
                       <Link
                         to="/change-password"
                         className="flex items-center gap-x-2"

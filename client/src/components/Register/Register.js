@@ -8,8 +8,8 @@ import registerValidationSchema from "../../helpers/registerValidationSchema";
 import { REGISTER_USER } from "../../graphql/mutation";
 import instagramLogo from "../../assets/images/Instagram_logo.svg.png";
 import AuthLoading from "../Loaders/AuthLoading/AuthLoading";
-import AuthSuccess from "../AuthStatus/AuthSuccess";
-import AuthError from "../AuthStatus/AuthError";
+import SuccessMessage from "../StatusMessage/SuccessMessage";
+import ErrorMessage from "../StatusMessage/ErrorMessage";
 
 function Register() {
   const navigate = useNavigate();
@@ -40,9 +40,9 @@ function Register() {
 
   return (
     <div className="w-full h-screen flex flex-col gap-y-4 justify-center items-center p-8">
-      {data && <AuthSuccess message="Successful connection" />}
+      {data && <SuccessMessage message="Successful connection" />}
 
-      {error && <AuthError message="This user already exists" />}
+      {error && <ErrorMessage message="This user already exists" />}
 
       <div className="w-full max-w-[350px] border border-gray-400 flex flex-col justify-center items-center gap-y-[10px] p-8">
         <img

@@ -61,6 +61,26 @@ const UNLIKE_POST = gql`
   }
 `;
 
+const CHANGE_USERNAME = gql`
+  mutation ($id: String!, $newUsername: String!) {
+    changeUsername(id: $id, newUsername: $newUsername) {
+      username
+    }
+  }
+`;
+
+const CHANGE_PASSWORD = gql`
+  mutation ($id: String!, $currPassword: String!, $newPassword: String!) {
+    changePassword(
+      id: $id
+      currPassword: $currPassword
+      newPassword: $newPassword
+    ) {
+      username
+    }
+  }
+`;
+
 export {
   REGISTER_USER,
   LOGIN_USER,
@@ -69,4 +89,6 @@ export {
   ADD_COMMENT,
   LIKE_POST,
   UNLIKE_POST,
+  CHANGE_USERNAME,
+  CHANGE_PASSWORD,
 };

@@ -55,10 +55,6 @@ function LandingPost({
     }
   }, [arrayOfLikes]);
 
-  // const [addComment, { loading, error, data }] = useMutation(ADD_COMMENT, {
-  //   refetchQueries: [GET_ALL_POSTS, "getAllPosts"],
-  // });
-
   const [addComment] = useMutation(ADD_COMMENT);
   const [likePost] = useMutation(LIKE_POST);
   const [unlikePost] = useMutation(UNLIKE_POST);

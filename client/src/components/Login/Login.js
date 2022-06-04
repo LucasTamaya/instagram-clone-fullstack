@@ -8,8 +8,8 @@ import loginValidationSchema from "../../helpers/loginValidationSchema";
 import { LOGIN_USER } from "../../graphql/mutation";
 import instagramLogo from "../../assets/images/Instagram_logo.svg.png";
 import AuthLoading from "../Loaders/AuthLoading/AuthLoading";
-import AuthSuccess from "../AuthStatus/AuthSuccess";
-import AuthError from "../AuthStatus/AuthError";
+import SuccessMessage from "../StatusMessage/SuccessMessage";
+import ErrorMessage from "../StatusMessage/ErrorMessage";
 
 function Login() {
   const navigate = useNavigate();
@@ -39,9 +39,9 @@ function Login() {
 
   return (
     <div className="w-full h-screen flex flex-col gap-y-4 justify-center items-center p-8">
-      {data && <AuthSuccess message="Successful connection" />}
+      {data && <SuccessMessage message="Successful connection" />}
 
-      {error && <AuthError message="Invalid email or password" />}
+      {error && <ErrorMessage message="Invalid email or password" />}
 
       <div className="w-full max-w-[350px] border border-gray-400 flex flex-col justify-center items-center gap-y-[10px] p-8">
         <img

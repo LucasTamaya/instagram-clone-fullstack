@@ -3,6 +3,7 @@ import { useQuery } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 
 import { GET_MY_POSTS } from "../../graphql/query";
+import Header from "../Header/Header";
 import LandingPageLoading from "../Loaders/LandingPageLoading/LandingPageLoading";
 import PersonalPost from "../Post/PersonalPost/PersonalPost";
 
@@ -29,22 +30,38 @@ function MyPhotos() {
     return <LandingPageLoading />;
   }
 
-  if (data) {
+  if (data.getMyPosts.length === 0) {
     return (
-      <div className="flex flex-col items-center p-4 gap-y-5" data-testid="myPhotos">
-
-        <h2 className="font-bold">My Photos</h2>
-
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-          {data.getMyPosts.map((post) => (
-            <PersonalPost
-              key={post._id}
-              postId={post._id}
-              imgUrl={post.imgUrl}
-            />
-          ))}
+      <>
+        <Header />
+        <div className="h-[90vh] w-full flex justify-center items-center">
+          <p className=" text-lg font-bold">No photos yet</p>
         </div>
-      </div>
+      </>
+    );
+  }
+
+  if (data.getMyPosts.length > 0) {
+    return (
+      <>
+        <Header />
+        <div
+          className="flex flex-col items-center p-4 pb-20 gap-y-5"
+          data-testid="myPhotos"
+        >
+          <h2 className="font-bold">My Photos</h2>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+            {data.getMyPosts.map((post) => (
+              <PersonalPost
+                key={post._id}
+                postId={post._id}
+                imgUrl={post.imgUrl}
+              />
+            ))}
+          </div>
+        </div>
+      </>
     );
   }
 }

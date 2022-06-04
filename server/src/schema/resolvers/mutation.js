@@ -181,23 +181,22 @@ const Mutation = new GraphQLObjectType({
         newPassword: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve: async (_, { id, currPassword, newPassword }) => {
-        try {
-          const user = await User.findById(id);
-          if (!user) {
-            console.log("Something went wrong");
-            throw new Error("Non existing user");
-          }
-
-          await passwordValidation(user, currPassword);
-
-          const hashPassword = await bcrypt.hash(newPassword, 10);
-          return User.findByIdAndUpdate(id, {
-            $set: { password: hashPassword },
-          });
-        } catch (err) {
-          console.log(err);
-          return err;
+        const user = await User.findById(id);
+        if (!user) {
+          console.log("Something went wrong");
+          return new Error("Non existing user");
         }
+
+        const isMatch = await passwordValidation(user, currPassword);
+
+        if (!isMatch) {
+          return new Error("Invalid password");
+        }
+
+        const hashPassword = await bcrypt.hash(newPassword, 10);
+        return User.findByIdAndUpdate(id, {
+          $set: { password: hashPassword },
+        });
       },
     },
   },
