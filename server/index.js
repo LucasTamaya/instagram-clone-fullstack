@@ -19,7 +19,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://instagram-clone-fullstack-lucastamaya.vercel.app",
+    origin: "https://instagram-clone-fullstack-lucastamaya.vercel.app/",
     credentials: true,
   })
 );
