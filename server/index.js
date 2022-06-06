@@ -1,7 +1,6 @@
 const express = require("express");
 const { graphqlHTTP } = require("express-graphql");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 const session = require("express-session");
 const MongoDBSession = require("connect-mongodb-session")(session);
 
@@ -15,6 +14,9 @@ const store = new MongoDBSession({
   uri: "mongodb+srv://lucas_tamaya:Lucas2003@linkedincloneapp.4qysj.mongodb.net/InstagramClone?retryWrites=true&w=majority",
   collection: "sessions",
 });
+
+// mongodb+srv://lucas_tamaya:Lucas2003@linkedincloneapp.4qysj.mongodb.net/InstagramClone?retryWrites=true&w=majority
+// process.env.MONGODB_URI + "&w=majority"
 
 const app = express();
 
