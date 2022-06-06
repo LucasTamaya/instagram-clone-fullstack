@@ -17,12 +17,7 @@ const store = new MongoDBSession({
 
 const app = express();
 
-app.use(
-  cors({
-    origin: "https://instagram-clone-fullstack-lucastamaya.vercel.app/",
-    credentials: true,
-  })
-);
+app.use(cors());
 
 app.use(
   session({
