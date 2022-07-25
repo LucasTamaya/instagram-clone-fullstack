@@ -62,9 +62,11 @@ const Mutation = new GraphQLObjectType({
           return new Error("Invalid password");
         }
 
-        req.session.user = user;
-
-        return user;
+        if (isMatch) {
+          req.session.user = user;
+          console.log("voila la session de l'utilisateur", req.session.user);
+          return user;
+        }
       },
     },
     // Endpoint //

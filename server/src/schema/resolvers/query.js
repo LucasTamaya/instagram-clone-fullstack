@@ -20,7 +20,9 @@ const RootQuery = new GraphQLObjectType({
           return new Error("Invalid cookie");
         }
 
-        console.log(req.session.user);
+        if (req.session.user) {
+          console.log("voila la session user", req.session.user);
+        }
 
         return Post.find({});
       },

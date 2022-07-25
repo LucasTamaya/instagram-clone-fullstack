@@ -11,13 +11,19 @@ const SESSION_SECRET = "fae54geFEFGaeg5454Agaegae545kutlutl54jth45g55faef";
 mongoDbConnection();
 
 const store = new MongoDBSession({
-  uri: process.env.MONGODB_URI + "&w=majority",
+  // uri: process.env.MONGODB_URI + "&w=majority",
+  uri: "mongodb+srv://lucas_tamaya:Lucas2003@linkedincloneapp.4qysj.mongodb.net/InstagramClone?retryWrites=true",
   collection: "sessions",
 });
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://instagram-clone-fullstack-lucastamaya.vercel.app",
+    credentials: true,
+  })
+);
 
 app.use(
   session({
